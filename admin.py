@@ -14,7 +14,7 @@ def registerAdmin():
 
     if count == 0:
         config = configparser.ConfigParser()
-        config.read('Student_Request_Portal/admin.ini')
+        config.read('admin.ini')
         name = config['admin']['name']
         email = config['admin']['email']
         password = config['admin']['password']

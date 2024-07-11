@@ -56,7 +56,7 @@ def create_app(test_config = None):
 
 def send_email(subject,body):
     config = configparser.ConfigParser()
-    config.read('Student_Request_Portal/admin.ini')
+    config.read('admin.ini')
     admin_email = config['admin']['email']
     message = Message(subject=subject,recipients=[admin_email],body = body)
     mail.send(message=message)
