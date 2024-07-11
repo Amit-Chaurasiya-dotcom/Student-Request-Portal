@@ -1,0 +1,43 @@
+DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS studentRequest;
+DROP TABLE IF EXISTS admin;
+DROP TABLE IF EXISTS adminReply;
+
+CREATE TABLE user (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    entryNo TEXT NOT NULL,
+    mobileNo VARCHAR(20) NOT NULL,
+    email VARCHAR(320) NOT NULL UNIQUE,
+    password TEXT NOT NULL
+);
+
+CREATE TABLE studentRequest (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    studentID INTEGER NOT NULL,
+    requestType TEXT NOT NULL,
+    description TEXT NOT NULL,
+    submissionDateGMT TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    submissionDate TIMESTAMP GENERATED ALWAYS AS (DATETIME(submissionDateGMT, '+05:30')) STORED,
+    additionalRemark TEXT,
+    FOREIGN KEY (studentID) REFERENCES user (id)
+);
+
+CREATE TABLE admin (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    email VARCHAR(320) NOT NULL UNIQUE,
+    password TEXT NOT NULL
+);
+
+CREATE TABLE adminReply (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    replyDateGMT TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    replyDate TIMESTAMP GENERATED ALWAYS AS (DATETIME(replyDateGMT, '+05:30')) STORED,
+    adminRemark TEXT NOT NULL,
+    status TINYINT(1) NOT NULL DEFAULT 0,
+    studentID INTEGER NOT NULL,
+    requestID INTEGER NOT NULL,
+    FOREIGN KEY (studentID) REFERENCES user(id),
+    FOREIGN KEY (requestID) REFERENCES studentRequest(id)
+);

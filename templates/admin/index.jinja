@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{%block section%}
+    <div class = "create-name-container">
+        <span class = "create-name"> Records</span>
+    </div>
+    <table id = "admin-requests-table">
+        <tr>
+            <th class = "col-SNo"> S. No.</th>
+            <th class = "col-sent-by"> Sent by</th>
+            <th class = "col-submissionDate"> Request Date</th>
+            <th class = "col-view"> View Request</th>
+            <th class = "col-respond"> Respond</th>
+            <th class = "col-status">Status</th>
+
+        </tr>
+    </table>
+
+    <br>
+
+    <div class = "pagination-container"><div id = "pagination"></div></div>
+
+    <script >
+        const data =  {{ requests | tojson | safe }}
+        const rowsPerPage = 5;
+        let currentPage = 1;
+        function displayTable(page) { 
+            const table = document.getElementById("admin-requests-table"); 
+            const startIndex = (page - 1) * rowsPerPage; 
+            const endIndex = startIndex + rowsPerPage; 
+            const slicedData = data.slice(startIndex, endIndex); 
+
+            // Clear existing table rows 
+            table.innerHTML = ` 
+            <tr>
+                <th class = "col-SNo"> S. No.</th>
+                <th class = "col-sent-by"> Sent by</th>
+                <th class = "col-submissionDate"> Request Date</th>
+                <th class = "col-view"> View Request</th>
+                <th class = "col-respond"> Respond</th>
+                <th class = "col-status">Status</th>
+            </tr>
+        `; 
+            let i = 1;
+            // Add new rows to the table 
+            slicedData.forEach(item => { 
+                const row = table.insertRow(); 
+                const serialCell = row.insertCell(0); 
+                const sentByCell = row.insertCell(1); 
+                sentByCell.id = "sent-by-cell"
+                const requestDateCell = row.insertCell(2); 
+                const viewCell = row.insertCell(3); 
+                const replyCell = row.insertCell(4);
+                const statusCell = row.insertCell(5);
+
+                const viewLink = document.createElement("a");
+                viewLink.href = '/view' + '/' + item.id;
+                const viewButton = document.createElement("button")
+                viewButton.innerText = "View";
+                viewButton.className = "auth_button";
+                viewButton.id = "view-button";
+                viewLink.appendChild(viewButton);
+
+                const replyLink = document.createElement("a");
+                const replyIcon = document.createElement("i");
+                replyIcon.className = "fa-solid fa-reply";
+                replyLink.href = '/admin/reply' + '/' + item.studentID + '/' + item.id;
+                const replyButton = document.createElement("button");
+                replyButton.appendChild(replyIcon);
+                replyButton.className = "auth_button";
+                replyButton.id = "view-button";
+                replyLink.appendChild(replyButton);
+
+                const statusLink = document.createElement("a");
+                statusLink.href = "#";
+                const statusButton = document.createElement("button");
+                statusButton.innerText = "Pending";
+                statusButton.className = "auth_button";
+                statusButton.id = "view-button";
+                statusLink.appendChild(statusButton);
+
+                if(item.status==1){
+                    statusLink.href = "/admin/adminRemark" + "/" + item.studentID +"/" +  item.id;
+                    statusButton.innerText = "Replied";
+                }
+
+                serialCell.innerHTML = `${startIndex+i}.`; 
+                sentByCell.innerHTML = item.studentName + ` (${item.studentEmail})`; 
+                requestDateCell.innerHTML = item.submissionDate; 
+                viewCell.appendChild(viewLink);
+                replyCell.appendChild(replyLink);
+                statusCell.appendChild(statusLink);
+                i++;
+            }); 
+
+            // Update pagination 
+            updatePagination(page); 
+        } 
+
+        function updatePagination(currentPage) { 
+            const pageCount = Math.ceil(data.length / rowsPerPage); 
+            const paginationContainer = document.getElementById("pagination"); 
+            paginationContainer.innerHTML = ""; 
+            for (let i = 1; i <= pageCount; i++) { 
+                const pageLink = document.createElement("a"); 
+                const pageButton = document.createElement("button");
+                pageButton.innerText = i;
+                pageButton.id = "page-button";
+                pageButton.className = "auth_button";
+                pageLink.href = "#"; 
+                pageLink.appendChild(pageButton);
+                pageLink.onclick = function () { 
+                    displayTable(i); 
+                }; 
+                if (i === currentPage) { 
+                    pageButton.style.fontWeight = "bold"; 
+                    pageButton.style.borderColor = "white";
+                } 
+                paginationContainer.appendChild(pageLink); 
+                paginationContainer.appendChild(document.createTextNode(" ")); 
+            } 
+
+            if(pageCount==0){
+                paginationContainer.style.display = "none";
+            }
+        } 
+
+        // Initial display 
+        displayTable(currentPage); 
+    </script>
+{%endblock%}

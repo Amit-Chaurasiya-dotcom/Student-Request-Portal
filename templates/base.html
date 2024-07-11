@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Request Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer"> 
+
+</head>
+<body>
+    <header>
+        <div class = "navbar">
+            {% if g.user %}
+                <div class = "navbar-start">
+                    <div class = "portal-name">Student Request Portal</div>
+                    <div class="user-name">
+                        <i class="fa-solid fa-user"></i>
+                        <span>{{g.user["name"]}}</span>
+                    </div>
+                </div>
+                <div class = 'nav-profile-button'>
+                    {% if g.user['id']==0%}
+                        <a href = "{{url_for('admin.index')}}">
+                            <button  class = "auth_button" id = "back-button">
+                                <i class="fa-solid fa-arrow-left"></i>
+                                Back
+                            </button>
+                        </a>
+                    {% else %}
+                        <a href = "{{url_for('index')}}">
+                            <button  class = "auth_button" id = "back-button">
+                                <i class="fa-solid fa-arrow-left"></i>
+                                Back
+                            </button>
+                        </a>
+                        <a href = " {{ url_for('studentRequest.create') }} ">
+                            <button class = "auth_button" id = "new-request-button">
+                                <i class="fa-solid fa-plus"></i>
+                                New Request
+                            </button>
+                        </a>
+                    {% endif %}
+                    <a href = "{{url_for('auth.logout')}}"> 
+                        <button class = "auth_button">
+                            Logout
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                        </button>
+                    </a>
+                </div>
+            
+            {%else%}
+                <div class = "portal-name">Student Request Portal</div>
+                <div class = "nav-auth">
+                    <!-- <a href="{{url_for('auth.login')}}"><button class = "auth_button">Login</button></a> -->
+                    <select class = "auth_button" id = "login-button">
+                        <option disabled selected>Login</option>
+                        <option value = "{{url_for('auth.login')}}">Student</option>
+                        <option value = "{{url_for('admin.login')}}">Admin</option>
+                    </select>
+                    <a href="{{url_for('auth.register')}}"><button class = "auth_button">Registration</button></a>
+                </div>
+            {%endif%}
+        </div>
+    </header>
+    <section>
+        {% for message in get_flashed_messages() %}
+        <div class= "flash">
+            {% if message == "Successfully submitted"%}
+                <div class = "success-message"> 
+                    {{message}}
+                </div>
+            {% else%}
+                <div class = "error-message">
+                    {{message}}
+                </div>
+
+            {%endif%}
+        </div>
+        {% endfor%}
+    </section>
+    {% block header%}{% endblock %}
+    {% block section %}{% endblock%}
+    <footer class = "footer">
+        <p><i class="fa-regular fa-copyright"></i> 2024 @amitchaurasiya. All rights reserved.</p>
+    </footer>
+</body>
+<script>
+    var flash_message = document.querySelector(".flash");
+    setTimeout(function(){
+        flash_message.style.display = "none";
+    },3000);
+
+    document.addEventListener('DOMContentLoaded',function (){
+        const currentURL = window.location.href;
+        for(option of loginButton.options){
+            if (currentURL.includes(option.value)) {
+                option.selected = true;
+                break;
+            }
+        }
+    })
+
+    var loginButton = document.getElementById("login-button");
+    loginButton.addEventListener('change',function(){
+        if(loginButton.value){
+            window.location.href = loginButton.value;
+        }
+    })
+</script>
+</html>

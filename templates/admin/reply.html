@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{%block header%}
+<div class = "create-name-container">
+    <span class = "create-name">Admin Response</span>
+</div>
+{%endblock%}
+
+{% block section %}
+
+<form method="post" class = "create-form">
+    <div class="create-label-box">
+        <div>Student Details</div>
+    </div>
+    <div class="student-details">
+        <br>
+        <div style = "text-transform: capitalize;">Name: {{student["name"]}}</div>
+        <br>
+        <div >Entry Number: {{student["entryNo"]}}</div>
+        <br>
+        <div >Email address: {{student["email"]}}</div>
+        <br>
+    </div>
+
+    <div class="create-label-box">
+        <label for = "adminRemark">Admin Remark<span class = "mandatory-star">*</span></label>
+    </div>
+    <textarea name = "adminRemark"    class = "create-input-box-area" required></textarea>
+    <input type ="submit" value = "Submit" class = "auth_button" id = "create-submit-button">
+</form>
+
+<div class = "blank-space">
+</div>
+
+
+{%endblock%}

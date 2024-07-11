@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+
+{%block  section %}
+    <div class = "mandatory-box" style="position:relative;left: 35vw;top:19vh;z-index:1">
+        <span >All (*) marked fields are mandatory.</span>
+    </div>
+    <div class = "create-name-container">
+        <span class = "create-name">Register Here</span>
+    </div>
+    <div class="register-container">
+        <form method = "post" class = "register-form">
+            <div class="register-details">
+                <div class="label-box">
+                    <label for = "name">Name<span class = "mandatory-star">*</span></label>
+                </div>
+                <input name = "name" type ="text" placeholder="Please enter your name." class = "input-box" max="100" required>
+
+                <div class="label-box">
+                    <label for = "entryNo">Entry Number<span class = "mandatory-star">*</span></label>
+                </div>
+                <input name = "entryNo" type ="text" placeholder="Please enter your entry number."  class = "input-box" required>
+
+                <div class="label-box">
+                    <label for = "mobileNo">Mobile Number<span class = "mandatory-star">*</span></label>
+                </div>
+                <input name = "mobileNo" type ="text" pattern="[0-9]{10}" placeholder="Please enter your 10 digits mobile number."  class = "input-box" required>
+
+                <div class = "label-box">
+                    <label for = "email">Email Id<span class = "mandatory-star">*</span></label>
+                </div>                               
+                <input name = "email" type ="email" placeholder="Please enter your email address." class = "input-box" required>
+
+                <div class = "label-box">
+                    <label for = "password">Password<span class = "mandatory-star">*</span></label>
+                </div>                
+                <input name = "password" type = "password" placeholder="Please enter your password."  class = "input-box" required>
+  
+            </div>
+
+            <input type="submit" value = "Register" class = "input-box" id = "register-submit-button">
+        </form>
+        
+    </div>
+
+{%endblock%}

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{%block header%}
+<div class = "create-name-container">
+    <span class = "create-name">View Request</span>
+</div>
+{%endblock%}
+
+{%block section%}
+<div class="create-form">
+    <div class="create-label-box">
+        Request Type
+    </div>
+    <div class="view-output-box" id  = "view-request-type">
+        {{req["requestType"]}}
+    </div>
+
+    <div class = "create-label-box">
+        Request Description
+    </div>
+    <div class="view-output-box">
+        <p>{{req["description"]}}</p>
+    </div>
+
+    <div class="create-label-box">
+        Additional Remark
+    </div>
+    <div class="view-output-box" id = "view-additional-remark">
+        <p>{{req["additionalRemark"]|replace('\n', '<br>')|safe}}</p>
+    </div>
+</div>
+<div class = "blank-space">
+</div>
+
+{%endblock%}

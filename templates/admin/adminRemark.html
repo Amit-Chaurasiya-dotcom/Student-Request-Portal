@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block section %}
+<div class="create-form">
+    {% for reply in replyAdmin %}
+        <div class="create-label-box">
+            <div>Admin wrote on {{reply['replyDate']}}:</div>
+        </div>
+        <div class="view-output-box">
+            <p>{{reply["adminRemark"]}}</p>
+        </div>
+    {%endfor%}
+</div>
+
+<div class = "blank-space">
+</div>
+
+
+{%endblock%}

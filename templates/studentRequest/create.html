@@ -1,0 +1,77 @@
+{% extends "base.html"%}
+
+{%block header%}
+<div class = "create-name-container">
+    <span class = "create-name">New Request</span>
+</div>
+{%endblock%}
+
+{%block section%}
+    <div class = "mandatory-box" style="position:relative;left: 30vw;top:6vh;">
+        <span >All (*) marked fields are mandatory.</span>
+    </div>
+    <form method="post" class = "create-form">
+            <div class="create-label-box">
+                <label for = "requestType">Request Type<span class = "mandatory-star">*</span></label>
+            </div>
+            <select class = "create-input-box" id = "requestType" name = "requestType" required>
+                <option disabled selected>Select</option>
+                <option value = "Project Request">Project Request</option>
+                <option value = "Self-Study Request">Self-Study Request</option>
+                <option value="Other">Other</option>
+            </select>
+            <input style = "display: None;" type="text"  id = "otherInput" name="otherRequest" class = "create-input-box" placeholder="Please specify." maxlength="100">
+
+
+            <div class="create-label-box">
+                <label for = "description">Request Description<span class = "mandatory-star">*</span></label>
+            </div>
+            <textarea name = "description"    class = "create-input-box-area" required></textarea>
+            
+
+            <div class="create-label-box">
+                <label for = "additionalRemark">Additional Remark</label>
+            </div>
+            
+            <textarea name = "additionalRemark" class = "create-input-box-area" id = "additional-remark-box"></textarea>
+            
+
+            <div class="create-label-box">
+                <label for = "requestUrgency">Request Urgency</label>
+            </div>
+            <select name = "requestUrgency" class = "create-input-box">
+                <option disabled selected>Select</option>
+                <option value="High">High</option>
+                <option value = "Medium">Medium</option>
+                <option value = "Medium">Low</option>
+            </select>
+            
+            <div class="create-label-box">
+                <label for = "estimatedDuration">Estimated Duration</label>
+            </div>
+            <input type = "number" name = "estimatedDuration" pattern="0-9*" inputmode="numeric" placeholder="Estimated Duration in days" class = "create-input-box">
+        <input type ="submit" value = "Submit" class = "auth_button" id = "create-submit-button">
+    </form>
+    <div class = "blank-space">
+    </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded',function (){
+        var requestType = document.getElementById("requestType")
+        var otherInput = document.getElementById("otherInput")
+
+        requestType.addEventListener('change', function() {
+            if (requestType.value === 'Other') {
+                otherInput.style.display = 'block';
+            } 
+            else {
+                otherInput.style.display = 'none';
+                ;
+            }
+        });
+
+    }
+);
+</script>
+
+{%endblock%}
